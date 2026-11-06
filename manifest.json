@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Azure PR Review Keys",
+  "version": "1.0.0",
+  "description": "Atalhos de teclado para rever PRs no Azure DevOps: alteração seguinte/anterior e marcar ficheiro como revisto.",
+  "content_scripts": [
+    {
+      "matches": ["https://dev.azure.com/*", "https://*.visualstudio.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
