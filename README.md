@@ -44,7 +44,7 @@ They work on the **Files** tab of any pull request on `dev.azure.com` and `*.vis
 
 > **Windows and Linux:** the extension works the same way, with <kbd>Ctrl</kbd> instead of <kbd>⌘</kbd>. It detects the operating system on its own; there is nothing to configure.
 
-The on-screen messages are in Portuguese.
+The on-screen messages are in English, or in Portuguese when the browser is set to Portuguese.
 
 ## Install
 
@@ -94,9 +94,13 @@ The extension asks for no permissions, stores nothing and makes no network reque
 ## Structure
 
 ```
-manifest.json   extension manifest (Manifest V3)
-content.js      shortcuts and navigation
-docs/           icon and README image
+manifest.json             extension manifest (Manifest V3)
+content.js                shortcuts and navigation
+icons/                    extension icons (PNG, generated)
+docs/                     icon and README image (SVG sources)
+store/                    Chrome Web Store listing text and images
+scripts/render-images.sh  regenerates icons/ and store/images/ with headless Chrome
+scripts/package.sh        builds the ZIP to upload to the store, in dist/
 ```
 
 ## License

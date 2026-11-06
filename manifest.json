@@ -1,8 +1,14 @@
 {
   "manifest_version": 3,
   "name": "Azure PR Review Keys",
-  "version": "1.0.0",
-  "description": "Atalhos de teclado para rever PRs no Azure DevOps: alteração seguinte/anterior e marcar ficheiro como revisto.",
+  "version": "1.1.0",
+  "description": "Keyboard shortcuts for reviewing Azure DevOps pull requests: next and previous change, mark a file as reviewed.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
   "content_scripts": [
     {
       "matches": ["https://dev.azure.com/*", "https://*.visualstudio.com/*"],
