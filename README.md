@@ -1,102 +1,104 @@
 <p align="center">
-  <img src="docs/icon.svg" width="128" height="128" alt="Ícone da Azure PR Review Keys">
+  <img src="docs/icon.svg" width="128" height="128" alt="Azure PR Review Keys icon">
 </p>
 
 <h1 align="center">Azure PR Review Keys</h1>
 
 <p align="center">
-  Revê pull requests no Azure DevOps sem largar o teclado.<br>
-  <kbd>⌘</kbd><kbd>↓</kbd> para a próxima alteração, <kbd>⌘</kbd><kbd>Enter</kbd> para o próximo ficheiro. Pronto.
+  Review Azure DevOps pull requests without leaving the keyboard.<br>
+  <kbd>⌘</kbd><kbd>↓</kbd> for the next change, <kbd>⌘</kbd><kbd>Enter</kbd> for the next file. That's it.
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Chrome-Manifest%20V3-4285F4?logo=googlechrome&logoColor=white" alt="Chrome, Manifest V3">
   <img src="https://img.shields.io/badge/Azure%20DevOps-Repos-0078D4?logo=azuredevops&logoColor=white" alt="Azure DevOps Repos">
-  <img src="https://img.shields.io/badge/macOS%20%C2%B7%20Windows%20%C2%B7%20Linux-555" alt="macOS, Windows e Linux">
-  <img src="https://img.shields.io/badge/permiss%C3%B5es-nenhuma-2FB57A" alt="Sem permissões">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/licen%C3%A7a-MIT-blue" alt="Licença MIT"></a>
+  <img src="https://img.shields.io/badge/macOS%20%C2%B7%20Windows%20%C2%B7%20Linux-555" alt="macOS, Windows and Linux">
+  <img src="https://img.shields.io/badge/permissions-none-2FB57A" alt="No permissions">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"></a>
 </p>
 
 <p align="center">
-  <img src="docs/hero.svg" alt="O separador Files de um PR no Azure DevOps, com um bloco alterado realçado, as teclas ⌘ e ↓ e o aviso «Marcado. A seguir: routes.ts»" width="840">
+  <img src="docs/hero.svg" alt="The Files tab of an Azure DevOps pull request, with a changed block highlighted, the ⌘ and ↓ keys, and a toast confirming the file was marked and naming the next one" width="840">
 </p>
 
-A Azure PR Review Keys é uma extensão do Chrome para quem passa o dia a rever PRs no Azure DevOps. Em vez de andar com o rato à procura da próxima alteração e do visto de cada ficheiro, saltas de bloco em bloco com as setas e fechas cada ficheiro com um <kbd>⌘</kbd><kbd>Enter</kbd>, que te leva logo ao seguinte por rever. É um único script, sem permissões, sem dependências e sem pedidos de rede.
+Azure PR Review Keys is a Chrome extension for anyone who spends their day reviewing pull requests in Azure DevOps. Instead of hunting with the mouse for the next change and for each file's review checkbox, you jump from block to block with the arrow keys and close each file with <kbd>⌘</kbd><kbd>Enter</kbd>, which takes you straight to the next one left to review. It is a single script: no permissions, no dependencies, no network requests.
 
-## Funcionalidades
+## Features
 
-- **Alteração seguinte e anterior.** Salta entre os blocos alterados; no fim de um ficheiro, passa ao seguinte.
-- **Marcar e seguir.** <kbd>⌘</kbd><kbd>Enter</kbd> marca o ficheiro como revisto e abre o próximo que ainda não reviste, saltando os que já estão marcados.
-- **Desmarcar.** Num ficheiro já revisto, o mesmo atalho tira-lhe o visto.
-- **Os dois modos do separador Files:** um ficheiro de cada vez ou todos os ficheiros seguidos.
-- **Não atrapalha.** Enquanto escreves um comentário, os atalhos ficam desligados e o <kbd>⌘</kbd><kbd>Enter</kbd> continua a publicar o comentário.
-- **Mostra o que fez:** o bloco atual fica marcado com uma barra azul, e um aviso discreto confirma cada ficheiro marcado.
+- **Next and previous change.** Jumps between changed blocks; at the end of a file, moves on to the next one.
+- **Mark and move on.** <kbd>⌘</kbd><kbd>Enter</kbd> marks the file as reviewed and opens the next file you haven't reviewed yet, skipping the ones already marked.
+- **Unmark.** On a file that is already reviewed, the same shortcut removes the mark.
+- **Both modes of the Files tab:** one file at a time, or all files in a single scroll.
+- **Stays out of the way.** While you type a comment the shortcuts are off, so <kbd>⌘</kbd><kbd>Enter</kbd> still posts the comment.
+- **Shows what it did:** the current block gets a blue bar on its left, and a small toast confirms each file you mark.
 
-## Atalhos
+## Shortcuts
 
-| macOS | Windows / Linux | O que faz |
+| macOS | Windows / Linux | What it does |
 | --- | --- | --- |
-| <kbd>⌘</kbd><kbd>↓</kbd> | <kbd>Ctrl</kbd><kbd>↓</kbd> | Alteração seguinte; no fim do ficheiro, passa ao seguinte |
-| <kbd>⌘</kbd><kbd>↑</kbd> | <kbd>Ctrl</kbd><kbd>↑</kbd> | Alteração anterior |
-| <kbd>⌘</kbd><kbd>Enter</kbd> | <kbd>Ctrl</kbd><kbd>Enter</kbd> | Marca como revisto e abre o próximo ficheiro por rever (ou desmarca, se já estava) |
+| <kbd>⌘</kbd><kbd>↓</kbd> | <kbd>Ctrl</kbd><kbd>↓</kbd> | Next change; at the end of the file, moves to the next file |
+| <kbd>⌘</kbd><kbd>↑</kbd> | <kbd>Ctrl</kbd><kbd>↑</kbd> | Previous change |
+| <kbd>⌘</kbd><kbd>Enter</kbd> | <kbd>Ctrl</kbd><kbd>Enter</kbd> | Marks the file as reviewed and opens the next unreviewed file (or unmarks it, if it was already reviewed) |
 
-Funcionam no separador **Files** de qualquer PR em `dev.azure.com` e `*.visualstudio.com`.
+They work on the **Files** tab of any pull request on `dev.azure.com` and `*.visualstudio.com`.
 
-> **Windows e Linux:** a extensão funciona da mesma forma; em vez de <kbd>⌘</kbd> usa-se <kbd>Ctrl</kbd>. Deteta o sistema sozinha, não há nada a configurar.
+> **Windows and Linux:** the extension works the same way, with <kbd>Ctrl</kbd> instead of <kbd>⌘</kbd>. It detects the operating system on its own; there is nothing to configure.
 
-## Instalar
+The on-screen messages are in Portuguese.
 
-A extensão não está na Chrome Web Store; instala-se a partir do código.
+## Install
+
+The extension is not on the Chrome Web Store; you install it from the source.
 
 ```bash
 git clone https://github.com/gustavos00/azure-pr-review-keys.git
 ```
 
-1. Abre `chrome://extensions`.
-2. Liga o **Developer mode**, no canto superior direito.
-3. Clica em **Load unpacked** e escolhe a pasta `azure-pr-review-keys`.
-4. Recarrega a página do PR.
+1. Open `chrome://extensions`.
+2. Turn on **Developer mode**, in the top-right corner.
+3. Click **Load unpacked** and pick the `azure-pr-review-keys` folder.
+4. Reload the pull request page.
 
-Para atualizar, faz `git pull` na pasta e carrega no ↻ da extensão em `chrome://extensions`.
+To update, run `git pull` in the folder and click the extension's ↻ button in `chrome://extensions`.
 
-Os passos são os mesmos no macOS, no Windows e no Linux. No Windows, se não tiveres o git, descarrega o ZIP do repositório (**Code › Download ZIP**) e extrai-o.
+The steps are the same on macOS, Windows and Linux. Without git, download the repository as a ZIP (**Code › Download ZIP**) and extract it.
 
-Funciona também no Edge, no Brave, no Arc e noutros browsers baseados em Chromium. No Edge, a página é `edge://extensions` e o **Developer mode** está no menu da esquerda.
+It also works in Edge, Brave, Arc and other Chromium-based browsers. In Edge, the page is `edge://extensions` and **Developer mode** is in the left-hand menu.
 
-## Usar
+## Usage
 
-1. Abre um PR e vai ao separador **Files**.
-2. Clica no primeiro ficheiro da árvore à esquerda.
-3. <kbd>⌘</kbd><kbd>↓</kbd> até ao fim das alterações do ficheiro.
-4. <kbd>⌘</kbd><kbd>Enter</kbd>: o ficheiro fica revisto e abre-se o próximo por rever.
-5. Repete até o aviso dizer *Não há mais ficheiros por rever*.
+1. Open a pull request and go to the **Files** tab.
+2. Click the first file in the tree on the left.
+3. Press <kbd>⌘</kbd><kbd>↓</kbd> until you reach the end of the file's changes.
+4. Press <kbd>⌘</kbd><kbd>Enter</kbd>: the file is marked as reviewed and the next unreviewed file opens.
+5. Repeat until the toast says there are no more files to review.
 
-> Também funciona com a raiz ou uma pasta selecionada (todos os ficheiros seguidos), mas aí o <kbd>⌘</kbd><kbd>Enter</kbd> só consegue marcar um ficheiro cujo nome esteja visível na árvore. Com um ficheiro de cada vez isso não acontece.
+> It also works with the root or a folder selected (all files in a single scroll), but there <kbd>⌘</kbd><kbd>Enter</kbd> can only mark a file whose name is visible in the tree. With one file at a time this never happens.
 
-## Como funciona
+## How it works
 
-| Peça | Como |
+| Part | How |
 | --- | --- |
-| Um ficheiro aberto | Usa os botões *Previous / Next difference* do próprio Azure, que já atravessam ficheiros |
-| Todos os ficheiros | Encontra os blocos alterados nos cartões de diff; quando acaba o que está carregado, desce a página para o Azure carregar mais |
-| Marcar como revisto | Carrega no visto *Mark as reviewed* da linha do ficheiro na árvore |
-| Próximo por rever | Percorre a árvore a partir do ficheiro atual, descendo o scroll porque o Azure só desenha as linhas visíveis |
-| Teclado | Um `keydown` em captura na janela, que ignora campos de texto |
+| One file open | Uses Azure's own *Previous / Next difference* buttons, which already cross file boundaries |
+| All files | Finds the changed blocks in the diff cards; when it runs out of loaded content, scrolls down so Azure loads more |
+| Mark as reviewed | Clicks the *Mark as reviewed* checkbox on the file's row in the tree |
+| Next unreviewed file | Walks the tree from the current file, scrolling as it goes because Azure only renders the visible rows |
+| Keyboard | A capturing `keydown` listener on the window that ignores text fields |
 
-Tudo isto depende da estrutura da página do Azure DevOps. Se a Microsoft a mudar, os atalhos podem deixar de funcionar até serem ajustados.
+All of this depends on the structure of the Azure DevOps page. If Microsoft changes it, the shortcuts may stop working until they are adjusted.
 
-## Privacidade
+## Privacy
 
-A extensão não pede permissões, não guarda nada e não faz pedidos de rede. O `content.js` só corre nas páginas do Azure DevOps e só reage às três teclas acima.
+The extension asks for no permissions, stores nothing and makes no network requests. `content.js` only runs on Azure DevOps pages and only reacts to the three shortcuts above.
 
-## Estrutura
+## Structure
 
 ```
-manifest.json   declaração da extensão (Manifest V3)
-content.js      atalhos e navegação
-docs/           ícone e imagem do README
+manifest.json   extension manifest (Manifest V3)
+content.js      shortcuts and navigation
+docs/           icon and README image
 ```
 
-## Licença
+## License
 
 [MIT](LICENSE) © Gustavo Santos
