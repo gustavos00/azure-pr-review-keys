@@ -1,7 +1,8 @@
 // Atalhos para rever PRs no Azure DevOps (separador "Files").
 //   Cmd/Ctrl + ↓      alteração seguinte
 //   Cmd/Ctrl + ↑      alteração anterior
-//   Cmd/Ctrl + Enter  marca/desmarca o ficheiro atual como revisto
+//   Cmd/Ctrl + Enter  marca o ficheiro como revisto e abre o próximo por rever
+//                     (num ficheiro já revisto, desmarca-o)
 //
 // O separador "Files" tem dois modos:
 //   - um ficheiro aberto: o Azure já tem os botões "Previous/Next difference"
@@ -227,22 +228,102 @@
     return null;
   }
 
+  function getReviewedCheckbox(row) {
+    return row?.querySelector('.bolt-checkbox[role="checkbox"]') ?? null;
+  }
+
+  function isReviewed(row) {
+    return getReviewedCheckbox(row)?.getAttribute("aria-checked") === "true";
+  }
+
+  function isFileRow(row) {
+    return !row.hasAttribute("aria-expanded");
+  }
+
+  /** Marca ou desmarca; devolve "marked", "unmarked" ou null se a linha não tem visto. */
   function toggleReviewed(row) {
-    const checkbox = row?.querySelector('.bolt-checkbox[role="checkbox"]');
+    const checkbox = getReviewedCheckbox(row);
 
     if (!checkbox) {
-      return false;
+      return null;
     }
 
     const wasChecked = checkbox.getAttribute("aria-checked") === "true";
 
     checkbox.click();
-    showToast(wasChecked ? "Ficheiro desmarcado" : "✓ Ficheiro marcado como revisto");
 
-    return true;
+    return wasChecked ? "unmarked" : "marked";
   }
 
-  function markCurrentFileReviewed() {
+  function getTreeScroller() {
+    return document.querySelector(".repos-changes-explorer-tree-root")?.closest(".v-scroll-auto") ?? null;
+  }
+
+  // A árvore só desenha as linhas visíveis: percorre-a descendo o scroll até achar
+  // um ficheiro por rever depois de `from`.
+  async function findNextUnreviewedRow(from) {
+    const scroller = getTreeScroller();
+    let last = from;
+
+    for (let attempt = 0; attempt < 40; attempt += 1) {
+      const rows = [...document.querySelectorAll("tr.bolt-tree-row")];
+      const start = last?.isConnected ? rows.indexOf(last) + 1 : 0;
+      const candidates = rows.slice(start);
+      const next = candidates.find((row) => isFileRow(row) && !isReviewed(row));
+
+      if (next) {
+        return next;
+      }
+
+      last = rows.at(-1) ?? last;
+
+      if (!scroller || scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 2) {
+        return null;
+      }
+
+      scroller.scrollTop += scroller.clientHeight * 0.8;
+      await sleep(250);
+    }
+
+    return null;
+  }
+
+  async function openNextUnreviewedFile(from) {
+    const next = await findNextUnreviewedRow(from);
+
+    if (!next) {
+      showToast("✓ Marcado. Não há mais ficheiros por rever");
+
+      return;
+    }
+
+    next.scrollIntoView({ block: "nearest" });
+    next.click();
+    showToast(`✓ Marcado. A seguir: ${getTreeRowName(next)}`);
+  }
+
+  async function goToNextUnreviewedCard(viewer, currentPath) {
+    const cards = [...viewer.querySelectorAll(".repos-summary-header")];
+    const start = cards.findIndex(
+      (card) => card.querySelector(".bolt-card-expand-button")?.getAttribute("aria-label") === currentPath,
+    );
+    const next = cards.slice(start + 1).find((card) => {
+      const path = card.querySelector(".bolt-card-expand-button")?.getAttribute("aria-label");
+
+      return !isReviewed(findTreeRowByPath(path));
+    });
+
+    if (!next) {
+      showToast("✓ Marcado. Não há mais ficheiros por rever");
+
+      return;
+    }
+
+    viewer.scrollTop += next.getBoundingClientRect().top - viewer.getBoundingClientRect().top - 8;
+    showToast("✓ Marcado. Próximo ficheiro");
+  }
+
+  async function markCurrentFileReviewed() {
     const viewer = getViewer();
 
     if (viewer?.classList.contains("is-folder")) {
@@ -254,15 +335,29 @@
         return;
       }
 
-      if (!toggleReviewed(findTreeRowByPath(path))) {
+      const result = toggleReviewed(findTreeRowByPath(path));
+
+      if (result === null) {
         showToast("Mostra o ficheiro na árvore à esquerda para o marcar");
+      } else if (result === "unmarked") {
+        showToast("Ficheiro desmarcado");
+      } else {
+        await goToNextUnreviewedCard(viewer, path);
       }
 
       return;
     }
 
-    if (!toggleReviewed(document.querySelector("tr.bolt-tree-row.selected"))) {
+    const selected = document.querySelector("tr.bolt-tree-row.selected");
+    const result = toggleReviewed(selected);
+
+    if (result === null) {
       showToast("Abre um ficheiro primeiro");
+    } else if (result === "unmarked") {
+      showToast("Ficheiro desmarcado");
+    } else {
+      await sleep(150);
+      await openNextUnreviewedFile(selected);
     }
   }
 
