@@ -18,6 +18,40 @@
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+  const MESSAGES = {
+    en: {
+      noMoreChanges: "No more changes",
+      firstChange: "Already at the first change",
+      markedAllDone: "✓ Marked. No more files to review",
+      markedNext: (name) => `✓ Marked. Next: ${name}`,
+      markedNextFile: "✓ Marked. Next file",
+      noCurrentFile: "Couldn't find the current file",
+      showInTree: "Scroll the file into view in the tree on the left to mark it",
+      unmarked: "File unmarked",
+      openFileFirst: "Open a file first",
+      openFilesTab: "Open the pull request's Files tab",
+    },
+    pt: {
+      noMoreChanges: "Não há mais alterações",
+      firstChange: "Já estás na primeira alteração",
+      markedAllDone: "✓ Marcado. Não há mais ficheiros por rever",
+      markedNext: (name) => `✓ Marcado. A seguir: ${name}`,
+      markedNextFile: "✓ Marcado. Próximo ficheiro",
+      noCurrentFile: "Não encontrei o ficheiro atual",
+      showInTree: "Mostra o ficheiro na árvore à esquerda para o marcar",
+      unmarked: "Ficheiro desmarcado",
+      openFileFirst: "Abre um ficheiro primeiro",
+      openFilesTab: "Abre o separador Files do PR",
+    },
+  };
+  const LANGUAGE = navigator.language.toLowerCase().startsWith("pt") ? "pt" : "en";
+
+  function translate(key, ...args) {
+    const message = MESSAGES[LANGUAGE][key];
+
+    return typeof message === "function" ? message(...args) : message;
+  }
+
   function isPullRequestFilesPage() {
     return /\/pullrequest\/\d+/.test(location.pathname);
   }
@@ -86,7 +120,7 @@
     const button = getDiffButton(direction);
 
     if (button.getAttribute("aria-disabled") === "true" || button.disabled) {
-      showToast(direction === "next" ? "Não há mais alterações" : "Já estás na primeira alteração");
+      showToast(direction === "next" ? translate("noMoreChanges") : translate("firstChange"));
 
       return;
     }
@@ -170,7 +204,7 @@
       }
     }
 
-    showToast("Não há mais alterações");
+    showToast(translate("noMoreChanges"));
   }
 
   function goToPreviousHunk(viewer) {
@@ -180,7 +214,7 @@
       .at(-1);
 
     if (!previous) {
-      showToast("Já estás na primeira alteração");
+      showToast(translate("firstChange"));
 
       return;
     }
@@ -292,14 +326,14 @@
     const next = await findNextUnreviewedRow(from);
 
     if (!next) {
-      showToast("✓ Marcado. Não há mais ficheiros por rever");
+      showToast(translate("markedAllDone"));
 
       return;
     }
 
     next.scrollIntoView({ block: "nearest" });
     next.click();
-    showToast(`✓ Marcado. A seguir: ${getTreeRowName(next)}`);
+    showToast(translate("markedNext", getTreeRowName(next)));
   }
 
   async function goToNextUnreviewedCard(viewer, currentPath) {
@@ -314,13 +348,13 @@
     });
 
     if (!next) {
-      showToast("✓ Marcado. Não há mais ficheiros por rever");
+      showToast(translate("markedAllDone"));
 
       return;
     }
 
     viewer.scrollTop += next.getBoundingClientRect().top - viewer.getBoundingClientRect().top - 8;
-    showToast("✓ Marcado. Próximo ficheiro");
+    showToast(translate("markedNextFile"));
   }
 
   async function markCurrentFileReviewed() {
@@ -330,7 +364,7 @@
       const path = getCurrentCardPath(viewer);
 
       if (!path) {
-        showToast("Não encontrei o ficheiro atual");
+        showToast(translate("noCurrentFile"));
 
         return;
       }
@@ -338,9 +372,9 @@
       const result = toggleReviewed(findTreeRowByPath(path));
 
       if (result === null) {
-        showToast("Mostra o ficheiro na árvore à esquerda para o marcar");
+        showToast(translate("showInTree"));
       } else if (result === "unmarked") {
-        showToast("Ficheiro desmarcado");
+        showToast(translate("unmarked"));
       } else {
         await goToNextUnreviewedCard(viewer, path);
       }
@@ -352,9 +386,9 @@
     const result = toggleReviewed(selected);
 
     if (result === null) {
-      showToast("Abre um ficheiro primeiro");
+      showToast(translate("openFileFirst"));
     } else if (result === "unmarked") {
-      showToast("Ficheiro desmarcado");
+      showToast(translate("unmarked"));
     } else {
       await sleep(150);
       await openNextUnreviewedFile(selected);
@@ -373,7 +407,7 @@
     const viewer = getViewer();
 
     if (!viewer) {
-      showToast("Abre o separador Files do PR");
+      showToast(translate("openFilesTab"));
 
       return;
     }
