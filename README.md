@@ -12,6 +12,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Chrome-Manifest%20V3-4285F4?logo=googlechrome&logoColor=white" alt="Chrome, Manifest V3">
   <img src="https://img.shields.io/badge/Azure%20DevOps-Repos-0078D4?logo=azuredevops&logoColor=white" alt="Azure DevOps Repos">
+  <img src="https://img.shields.io/badge/macOS%20%C2%B7%20Windows%20%C2%B7%20Linux-555" alt="macOS, Windows e Linux">
   <img src="https://img.shields.io/badge/permiss%C3%B5es-nenhuma-2FB57A" alt="Sem permissões">
   <a href="LICENSE"><img src="https://img.shields.io/badge/licen%C3%A7a-MIT-blue" alt="Licença MIT"></a>
 </p>
@@ -41,6 +42,8 @@ A Azure PR Review Keys é uma extensão do Chrome para quem passa o dia a rever 
 
 Funcionam no separador **Files** de qualquer PR em `dev.azure.com` e `*.visualstudio.com`.
 
+> **Windows e Linux:** a extensão funciona da mesma forma; em vez de <kbd>⌘</kbd> usa-se <kbd>Ctrl</kbd>. Deteta o sistema sozinha, não há nada a configurar.
+
 ## Instalar
 
 A extensão não está na Chrome Web Store; instala-se a partir do código.
@@ -56,7 +59,9 @@ git clone https://github.com/gustavos00/azure-pr-review-keys.git
 
 Para atualizar, faz `git pull` na pasta e carrega no ↻ da extensão em `chrome://extensions`.
 
-Funciona também no Edge, no Brave, no Arc e noutros browsers baseados em Chromium.
+Os passos são os mesmos no macOS, no Windows e no Linux. No Windows, se não tiveres o git, descarrega o ZIP do repositório (**Code › Download ZIP**) e extrai-o.
+
+Funciona também no Edge, no Brave, no Arc e noutros browsers baseados em Chromium. No Edge, a página é `edge://extensions` e o **Developer mode** está no menu da esquerda.
 
 ## Usar
 
